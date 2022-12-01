@@ -19,23 +19,19 @@ pipeline{
 
            when{
                branch 'integration'
-                  }
-                   steps{
-                     echo 'Auf Integration branch'
-                   }
-               }
+           }
+           steps{
+             echo 'Auf Integration branch'
            }
         }
         stage('Feature-only'){
 
-           when{
-               branch 'feature/*'
-                  }
-                   steps{
-                     echo 'Auf Feature branch'
-                   }
-               }
-           }
+            when{
+                branch 'feature/*'
+            }
+            steps{
+              echo 'Auf Feature branch'
+            }
         }
     }
 }
