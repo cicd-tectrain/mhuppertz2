@@ -101,12 +101,19 @@ pipeline{
                 }
             }
             steps{
-                echo 'Build Feature'
-                sh 'ls -l'
-                sh 'gradle --version'
+                echo 'Build Integration'
                 sh 'gradle clean build -x test'
                 sh 'ls -la build/libs'
+
+
             }
+            post{
+                success{
+                // Stash
+                    stash name: 'integration_build', includes: 'build/'
+                }
+            }
+
         }
         stage('Test Integration'){
             // limit branches
@@ -121,7 +128,7 @@ pipeline{
                 }
             }
             steps{
-                echo 'Test Feature'
+                echo 'Test Integration'
                 sh 'gradle test'
                 //JUNit XML Reports
                 sh 'ls -la build/test-results/test'
@@ -144,6 +151,57 @@ pipeline{
             }
         }
 
+        stage("Publish Artifacts"){
+            // limit branches
+            when{
+                branch "${INTEGRATION_BRANCH}"
+                beforeAgent true
+            }
+            steps{
+                // Unstash
+                unstash 'integration_build'
+                // Publish Artifact in Nexus
+                nexusArtifactUploader artifacts: [
+                [
+                    artifactId: at.tectrain.demo,
+                    classifier: '',
+                    file: 'build/libs/demo/-0.0.1-SNAPSHOT.jar',
+                    type: 'jar'
+                ],
+                credentialsId: 'nexus_credentials',
+                groupId: '',
+                nexusUrl: 'nexus:8081/repository/maven-snapshots',
+                protocol: 'http',
+                repository: '',
+                version: '0.0.1-SNAPSHOT'
+                ]
+            }
+
+        }
+
+        stage('Deploy Integration branch'){
+            // limit branches
+            when{
+                branch "${INTEGRATION_BRANCH}"
+                beforeAgent true
+            }
+            steps{
+                echo 'deploying'
+            }
+        //    // Docker image bauen und starten (und archivieren)
+        //
+        //    // Env für Nexus Credentials
+        //
+        //    // Image bauen
+        //    sh 'docker build -t XXX . '
+        //    // Image taggen
+        //
+        //
+        //
+        //    sh 'docker login nexus:8081'
+        //
+        //    // Image pushen
+        //}
         //stage('Integrate Integration'){
         //    // limit branches
         //    when{
@@ -165,8 +223,6 @@ pipeline{
         //            sh 'git push origin integration'
         //        }
         //    }
-        //}
-
-
+        }
     }
 }
