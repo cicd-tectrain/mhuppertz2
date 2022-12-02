@@ -1,22 +1,22 @@
 pipeline{
     agent any
     stages{
-/*
-        stage('Build Feature'){
-            // Docker Agent
-            agent{
-                docker{
-                    image 'gradle:7.5.1-jdk17-focal'
-                }
-            }
-            steps{
-                echo 'Build Feature'
-                sh 'ls -l'
-                sh 'gradle --version'
-                sh 'gradle clean build -x test'
-                sh 'ls -la build/libs'
-            }
-        }*/
+
+        //stage('Build Feature'){
+        //    // Docker Agent
+        //    agent{
+        //        docker{
+        //            image 'gradle:7.5.1-jdk17-focal'
+        //        }
+        //    }
+        //    steps{
+        //        echo 'Build Feature'
+        //        sh 'ls -l'
+        //        sh 'gradle --version'
+        //        sh 'gradle clean build -x test'
+        //        sh 'ls -la build/libs'
+        //    }
+        //}
         stage('Test Feature'){
 
             steps{
