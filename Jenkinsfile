@@ -5,7 +5,7 @@ pipeline{
         }
     }
     stages{
-
+/*
         stage('Build Feature'){
             // Docker Agent
 
@@ -16,7 +16,7 @@ pipeline{
                 sh 'gradle clean build -x test'
                 sh 'ls -la build/libs'
             }
-        }
+        }*/
         stage('Test Feature'){
 
             steps{
@@ -29,6 +29,16 @@ pipeline{
             post {
                 always{
                     junit 'build/test-results/test/*.xml'
+                }
+                success {
+                    publishHTML target:[
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'build/reports/tests/test',
+                        reportFiles: 'index.html',
+                        reportName: 'Test-Report'
+                    ]
                 }
             }
         }
