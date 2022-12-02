@@ -3,6 +3,12 @@ pipeline{
     stages{
 
         stage('Build Feature'){
+
+            // limit branches
+            when{
+                branch 'feature/*'
+                beforeAgent true
+            }
             // Docker Agent
             agent{
                 docker{
@@ -26,7 +32,7 @@ pipeline{
             }
             steps{
                 echo 'Test Feature'
-                //sh 'gradle test'
+                sh 'gradle test'
                 //JUNit XML Reports
                 sh 'ls -la build/test-results/test'
                 sh 'ls -la build/reports/tests'
