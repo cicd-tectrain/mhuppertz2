@@ -17,31 +17,31 @@ pipeline{
         //        sh 'ls -la build/libs'
         //    }
         //}
-        stage('Test Feature'){
-
-            steps{
-                echo 'Test Feature'
-                //sh 'gradle test'
-                //JUNit XML Reports
-                sh 'ls -la build/test-results/test'
-                sh 'ls -la build/reports/tests'
-            }
-            post {
-                always{
-                    junit 'build/test-results/test/*.xml'
-                }
-                success {
-                    publishHTML target:[
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'build/reports/tests/test',
-                        reportFiles: 'index.html',
-                        reportName: 'Test-Report'
-                    ]
-                }
-            }
-        }
+        //stage('Test Feature'){
+        //
+        //    steps{
+        //        echo 'Test Feature'
+        //        //sh 'gradle test'
+        //        //JUNit XML Reports
+        //        sh 'ls -la build/test-results/test'
+        //        sh 'ls -la build/reports/tests'
+        //    }
+        //    post {
+        //        always{
+        //            junit 'build/test-results/test/*.xml'
+        //        }
+        //        success {
+        //            publishHTML target:[
+        //                allowMissing: true,
+        //                alwaysLinkToLastBuild: false,
+        //                keepAll: true,
+        //                reportDir: 'build/reports/tests/test',
+        //                reportFiles: 'index.html',
+        //                reportName: 'Test-Report'
+        //            ]
+        //        }
+        //    }
+        //}
         stage('Integrate Feature'){
             steps{
                 echo 'Integrate Feature'
