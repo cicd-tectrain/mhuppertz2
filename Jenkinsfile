@@ -11,12 +11,14 @@ pipeline{
             }
             steps{
                 echo 'Build Feature'
-                sh 'gradle clean build -x'
+                sh 'gradle clean build -x test'
+                sh 'ls -la build/libs'
             }
         }
         stage('Test Feature'){
             steps{
                 echo 'Test Feature'
+                gradle test
             }
         }
         stage('Integrate Feature'){
