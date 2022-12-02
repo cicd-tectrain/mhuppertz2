@@ -1,14 +1,14 @@
 pipeline{
-    agent{
-        docker{
-            image 'gradle:7.5.1-jdk17-focal'
-        }
-    }
+    agent any
     stages{
 /*
         stage('Build Feature'){
             // Docker Agent
-
+            agent{
+                docker{
+                    image 'gradle:7.5.1-jdk17-focal'
+                }
+            }
             steps{
                 echo 'Build Feature'
                 sh 'ls -l'
@@ -21,7 +21,7 @@ pipeline{
 
             steps{
                 echo 'Test Feature'
-                sh 'gradle test'
+                //sh 'gradle test'
                 //JUNit XML Reports
                 sh 'ls -la build/test-results/test'
                 sh 'ls -la build/reports/tests'
@@ -45,6 +45,17 @@ pipeline{
         stage('Integrate Feature'){
             steps{
                 echo 'Integrate Feature'
+                sh 'git --version'
+                sh 'git branch -a'
+                sh 'git checkout integration'
+                sh 'git pull'
+                // todo find correct branch name
+                sh 'git merge remotes/origin/feature/1'
+
+                // push
+                withCredentials({gitUsernamePassword(credentialsId: 'github:pat', gitToolName: 'Default'}){
+                    sh 'git push origin integration'
+                }
             }
         }
     }
