@@ -11,6 +11,7 @@ pipeline{
             }
             steps{
                 echo 'Build Feature'
+                sh 'gradle --version'
                 sh 'gradle clean build -x test'
                 sh 'ls -la build/libs'
             }
@@ -31,7 +32,7 @@ pipeline{
             }
             post {
                 always{
-                    junit 'build/test-results/test'
+                    junit 'build/test-results/test/*.xml'
                 }
             }
         }
