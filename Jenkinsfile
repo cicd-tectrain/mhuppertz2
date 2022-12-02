@@ -1,36 +1,19 @@
 pipeline{
     agent any
     stages{
-        stage('Hello'){
+        stage('Build Feature'){
             steps{
-                echo 'Hello World'
+                echo 'Build Feature'
             }
         }
-        stage('Master-only'){
-
-            when{
-                branch 'master'
-            }
+        stage('Test Feature'){
             steps{
-                echo 'Auf Master branch'
+                echo 'Test Feature'
             }
         }
-        stage('Integration-only'){
-
-           when{
-               branch 'integration'
-           }
-           steps{
-             echo 'Auf Integration branch'
-           }
-        }
-        stage('Feature-only'){
-
-            when{
-                branch 'feature/*'
-            }
+        stage('Integrate Feature'){
             steps{
-              echo 'Auf Feature branch'
+                echo 'Integrate Feature'
             }
         }
     }
