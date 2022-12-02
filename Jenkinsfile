@@ -11,6 +11,7 @@ pipeline{
             }
             steps{
                 echo 'Build Feature'
+                sh 'ls -l'
                 sh 'gradle --version'
                 sh 'gradle clean build -x test'
                 sh 'ls -la build/libs'
