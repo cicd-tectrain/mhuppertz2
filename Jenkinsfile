@@ -184,28 +184,29 @@ pipeline{
                 branch "${INTEGRATION_BRANCH}"
                 beforeAgent true
             }
-            steps{
-                echo 'deploying'
-            }
+
             // Docker image bauen und starten (und archivieren)
 
             // Env für Nexus Credentials
             environment{
                 NEXUS_CREDENTIALS = credentials('nexus_credentials')
             }
+            steps{
+                echo 'deploying'
 
-            unstash 'integration_build'
+                unstash 'integration_build'
 
-            // Image bauen -> Dockerfile
-            sh 'docker build -t demo:latest -f docker/integration/Dockerfile . '
-            // Image taggen
+                // Image bauen -> Dockerfile
+                sh 'docker build -t demo:latest -f docker/integration/Dockerfile . '
+                // Image taggen
 
-            sh 'echo ${NEXUS_CREDENTIALS_PSW} | docker login -u ${NEXUS_CREDENTIALS_USR} --password-stdin nexus:5000'
+                sh 'echo ${NEXUS_CREDENTIALS_PSW} | docker login -u ${NEXUS_CREDENTIALS_USR} --password-stdin nexus:5000'
 
-            // Image pushen
-            sh 'docker push nexus:5000/demo:latest'
+                // Image pushen
+                sh 'docker push nexus:5000/demo:latest'
 
-            sh 'docker container run +p 8090:8085 --name testing -d --rm demo:latest'
+                sh 'docker container run +p 8090:8085 --name testing -d --rm demo:latest'
+            }
         }
         //stage('Integrate Integration'){
         //    // limit branches
