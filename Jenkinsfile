@@ -18,7 +18,10 @@ pipeline{
         stage('Test Feature'){
             steps{
                 echo 'Test Feature'
-                gradle test
+                sh 'gradle test'
+                //JUNit XML Reports
+                sh 'ls -la build/test-results/test'
+                sh 'ls -la build/reports/tests'
             }
         }
         stage('Integrate Feature'){
