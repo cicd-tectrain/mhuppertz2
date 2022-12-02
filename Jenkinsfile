@@ -64,7 +64,8 @@ pipeline{
                 sh 'git merge remotes/origin/feature/1'
 
                 // push
-                withCredentials([gitUsernamePassword(credentialsId: 'github_token', gitToolName: 'Default')]){
+                //withCredentials([gitUsernamePassword(credentialsId: 'github_token', gitToolName: 'Default')]){
+                withCredentials([gitUsernamePassword(credentialsId: 'ac738b71-20de-4cb-aa10-0f0213e75700', gitToolName: 'Default')]){
                     sh 'git push origin integration'
                 }
             }
